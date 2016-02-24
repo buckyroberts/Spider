@@ -2,28 +2,35 @@ from html.parser import HTMLParser
 from urllib.request import urlopen
 from urllib import parse
 
+BASE_URL = 'https://thenewboston.com/'
+
 
 class Parser(HTMLParser):
 
+    def __init__(self):
+        super().__init__()
+
     def handle_starttag(self, tag, attrs):
         if tag == 'a':
-            self.handle_a(attrs)
+            for (attribute, value) in attrs:
+                if attribute == 'href':
+                    url = parse.urljoin(BASE_URL, value)
+                    print(attribute + ': ' + url)
+
+    def handle_data(self, data):
+        print("Data: ", data)
 
     def error(self, message):
         print(message)
 
-    def handle_a(self, attrs):
-        for (attribute, value) in attrs:
-            if attribute == 'href':
-                url = parse.urljoin('https://thenewboston.com/', value)
-                print(attribute + ': ' + url)
 
+html_string = ''
+response = urlopen(BASE_URL)
 
-response = urlopen('https://thenewboston.com/')
-htmlString = ''
 if response.getheader('Content-Type') == 'text/html':
-    htmlBytes = response.read()
-    htmlString = htmlBytes.decode("utf-8")
+    html_response = response.read()
+    html_string = html_response.decode("utf-8")
 
+# Create a parser and feed it text
 parser = Parser()
-parser.feed(htmlString)
+parser.feed(html_string)
