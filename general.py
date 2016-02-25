@@ -3,6 +3,7 @@ from link_finder import LinkFinder
 
 # Set for faster processing, file for saving data
 queued_links = set()
+crawled_links = set()
 
 
 # Append to a file
@@ -11,7 +12,7 @@ def append_to_file(path, data):
         file.write(data + '\n')
 
 
-# get_page_links('https://thenewboston.com/', 'https://thenewboston.com/')
+# Get links from webpage
 def get_page_links(base_url, page_url):
     response = urlopen(base_url)
     html_string = ''
@@ -23,7 +24,7 @@ def get_page_links(base_url, page_url):
     return link_finder.get_page_links()
 
 
-# adds a set of links to the queue
+# Add a set of links to the queue
 def add_links_to_list(base_url, page_url):
     for url in get_page_links(base_url, page_url):
         if url not in queued_links:
