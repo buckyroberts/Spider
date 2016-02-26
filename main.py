@@ -3,8 +3,9 @@ from queue import Queue
 from spider import Spider
 from general import *
 
-PROJECT_NAME = 'thenewboston'
-HOMEPAGE = 'https://thenewboston.com/'
+PROJECT_NAME = 'example'
+HOMEPAGE = 'http://example.com/'
+
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
 NUMBER_OF_THREADS = 8
@@ -41,8 +42,7 @@ def crawl():
     queued_links = file_to_set(PROJECT_NAME + '/queue.txt')
     if len(queued_links) > 0:
         print(str(len(queued_links)) + ' links in the queue')
-        create_workers()
         create_jobs()
 
-
+create_workers()
 crawl()
