@@ -21,7 +21,7 @@ def create_workers():
         t.start()
 
 
-# Do the next job in the queue, then update jobs (with updated queue)
+# Do the next job in the queue
 def work():
     while True:
         url = queue.get()
