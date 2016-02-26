@@ -8,6 +8,8 @@ class Spider:
     def __init__(self, project_name, base_url):
         self.project_name = project_name
         self.base_url = base_url
+        self.queue_file = self.project_name + '/queue.txt'
+        self.crawled_file = self.project_name + '/crawled.txt'
         self.queue = set()
         self.crawled = set()
         self.boot()
@@ -15,10 +17,17 @@ class Spider:
     def boot(self):
         create_project_dir(self.project_name)
         create_data_files(self.project_name, self.base_url)
-        self.queue = file_to_set(self.project_name + '/queue.txt')
-        self.crawled = file_to_set(self.project_name + '/crawled.txt')
+        self.queue = file_to_set(self.queue_file)
+        self.crawled = file_to_set(self.crawled_file)
 
-    def get_page_links(self, page_url):
+    def crawl_page(self, page_url):
+        if page_url not in self.crawled:
+            links = self.gather_links(page_url)
+            self.add_to_set('crawled', links)
+            self.crawled.add(page_url)
+            self.queue.remove(page_url)
+
+    def gather_links(self, page_url):
         html_string = ''
         response = urlopen(page_url)
         if response.getheader('Content-Type') == 'text/html':
@@ -31,11 +40,7 @@ class Spider:
     def add_to_set(self, name, links):
         if name == 'queue':
             self.queue.update(links)
+            set_to_file(self.queue, self.queue_file)
         if name == 'crawled':
             self.crawled.update(links)
-
-    def add_links(self, page_url):
-        for url in self.get_page_links(page_url):
-            if url not in self.queue:
-                append_to_file(self.project_name + '/queue.txt', url)
-                self.queue.add(url)
+            set_to_file(self.crawled, self.crawled_file)
