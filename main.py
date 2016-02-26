@@ -4,8 +4,8 @@ from spider import Spider
 from domain import *
 from general import *
 
-PROJECT_NAME = 'example'
-HOMEPAGE = 'http://example.com/'
+PROJECT_NAME = 'thenewboston'
+HOMEPAGE = 'https://thenewboston.com/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
