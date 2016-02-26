@@ -48,7 +48,7 @@ class Spider:
             finder = LinkFinder(Spider.base_url, page_url)
             finder.feed(html_string)
         except:
-            print('Error: can not crawl ' + page_url)
+            print('Error: can not crawl webpage')
             return set()
         return finder.page_links()
 
