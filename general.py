@@ -1,35 +1,35 @@
-from urllib.request import urlopen
-from link_finder import LinkFinder
-
-# Set for faster processing, file for saving data
-queued_links = set()
-crawled_links = set()
+import os
 
 
-# Append to a file
+def create_project_dir(directory):
+    if not os.path.exists(directory):
+        print("Creating directory " + directory)
+        os.makedirs(directory)
+
+
+def create_data_files(project_name, base_url):
+    queue = project_name + '/queue.txt'
+    crawled = project_name + '/crawled.txt'
+    if not os.path.isfile(queue):
+        write_file(queue, base_url)
+    if not os.path.isfile(crawled):
+        write_file(crawled, '')
+
+
+def write_file(path, data):
+    f = open(path, 'w')
+    f.write(data)
+    f.close()
+
+
 def append_to_file(path, data):
     with open(path, "a") as file:
         file.write(data + '\n')
 
 
-# Get links from webpage
-def get_page_links(base_url, page_url):
-    response = urlopen(base_url)
-    html_string = ''
-    if response.getheader('Content-Type') == 'text/html':
-        html_response = response.read()
-        html_string = html_response.decode("utf-8")
-    link_finder = LinkFinder(base_url, page_url)
-    link_finder.feed(html_string)
-    return link_finder.get_page_links()
-
-
-# Add a set of links to the queue
-def add_links_to_list(base_url, page_url):
-    for url in get_page_links(base_url, page_url):
-        if url not in queued_links:
-            append_to_file('links/queue.txt', url)
-            queued_links.add(url)
-
-
-add_links_to_list('https://thenewboston.com/', 'https://thenewboston.com/')
+def file_to_set(file_name):
+    results = set()
+    with open(file_name, 'rt') as f:
+        for line in f:
+            results.add(line.replace('\n', ''))
+    return results
