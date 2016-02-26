@@ -22,10 +22,11 @@ class Spider:
 
     def crawl_page(self, page_url):
         if page_url not in self.crawled:
-            links = self.gather_links(page_url)
-            self.add_to_set('crawled', links)
-            self.crawled.add(page_url)
+            print('Crawling ' + page_url)
+            self.add_to_set('queue', self.gather_links(page_url))
             self.queue.remove(page_url)
+            self.crawled.add(page_url)
+            self.update_files()
 
     def gather_links(self, page_url):
         html_string = ''
@@ -37,10 +38,12 @@ class Spider:
         finder.feed(html_string)
         return finder.page_links()
 
+    def update_files(self):
+        set_to_file(self.queue, self.queue_file)
+        set_to_file(self.crawled, self.crawled_file)
+
     def add_to_set(self, name, links):
         if name == 'queue':
             self.queue.update(links)
-            set_to_file(self.queue, self.queue_file)
         if name == 'crawled':
             self.crawled.update(links)
-            set_to_file(self.crawled, self.crawled_file)
