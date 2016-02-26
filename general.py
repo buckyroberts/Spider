@@ -3,7 +3,7 @@ import os
 
 def create_project_dir(directory):
     if not os.path.exists(directory):
-        print("Creating directory " + directory)
+        print('Creating directory ' + directory)
         os.makedirs(directory)
 
 
@@ -23,12 +23,12 @@ def write_file(path, data):
 
 
 def append_to_file(path, data):
-    with open(path, "a") as file:
+    with open(path, 'a') as file:
         file.write(data + '\n')
 
 
 def delete_file_contents(path):
-    with open(path, "w"):
+    with open(path, 'w'):
         pass
 
 
