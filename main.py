@@ -42,8 +42,9 @@ def create_jobs():
 # Check if there are items in the queue, if so crawl them
 def crawl():
     queued_links = file_to_set(PROJECT_NAME + '/queue.txt')
-    if len(queued_links) > 0:
-        print(str(len(queued_links)) + ' links in the queue')
+    if queued_links:
+        number_of_links = len(queued_links)
+        print('{} links in the queue'.format(number_of_links))
         create_jobs()
 
 create_workers()
