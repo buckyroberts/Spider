@@ -21,7 +21,7 @@ def create_data_files(project_name, base_url):
 # Create a new file
 def write_file(path, data):
     with open(path, 'w') as f:
-    f.write(data)
+        f.write(data)
 
 
 # Add data onto an existing file
