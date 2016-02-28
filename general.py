@@ -8,6 +8,16 @@ def create_project_dir(directory):
         os.makedirs(directory)
 
 
+# Remove queue and crawled files (if exist)
+def remove_data_files(project_name, base_url):
+    queue = project_name + '/queue.txt'
+    crawled = project_name + '/crawled.txt'
+    if os.path.isfile(queue):
+        os.remove(queue)
+    if os.path.isfile(crawled):
+        os.remove(crawled)
+
+
 # Create queue and crawled files (if not created)
 def create_data_files(project_name, base_url):
     queue = project_name + '/queue.txt'
@@ -21,7 +31,7 @@ def create_data_files(project_name, base_url):
 # Create a new file
 def write_file(path, data):
     with open(path, 'w') as f:
-    f.write(data)
+        f.write(data)
 
 
 # Add data onto an existing file

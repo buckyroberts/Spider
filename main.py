@@ -1,8 +1,19 @@
 import threading
+import argparse
 from queue import Queue
 from spider import Spider
 from domain import *
 from general import *
+
+parser = argparse.ArgumentParser(
+    description="Multi-threaded website crawler written in Python.")
+
+parser.add_argument(
+    "--flush",
+    help="empty project folder prior to crawling",
+    action="store_true")
+
+args = parser.parse_args()
 
 PROJECT_NAME = 'example'
 HOMEPAGE = 'http://example.com/'
@@ -12,7 +23,15 @@ QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
 NUMBER_OF_THREADS = 8
 queue = Queue()
-Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
+
+attrs = {
+    'project_name': PROJECT_NAME,
+    'base_url': HOMEPAGE,
+    'domain_name': DOMAIN_NAME,
+    'flush': args.flush
+}
+
+Spider(attrs)
 
 
 # Create worker threads (will die when main exits)
