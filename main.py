@@ -20,7 +20,7 @@ from general import *
 args = docopt(__doc__)
 
 PROJECT_NAME = 'example'
-HOMEPAGE = 'http://twitter.com/'
+HOMEPAGE = 'http://www.example.com/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
