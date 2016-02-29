@@ -1,3 +1,14 @@
+"""Multi-threaded website crawler written in Python.
+
+Usage:
+    main.py  [--flush]
+
+Options:
+    -h --help   Show this screen.
+    --flush     Empty project folder prior to crawling [default: True].
+
+"""
+from docopt import docopt
 import threading
 import argparse
 from queue import Queue
@@ -5,15 +16,9 @@ from spider import Spider
 from domain import *
 from general import *
 
-parser = argparse.ArgumentParser(
-    description="Multi-threaded website crawler written in Python.")
 
-parser.add_argument(
-    "--flush",
-    help="empty project folder prior to crawling",
-    action="store_true")
-
-args = parser.parse_args()
+args = docopt(__doc__)
+print(args)
 
 PROJECT_NAME = 'example'
 HOMEPAGE = 'http://example.com/'
@@ -28,7 +33,7 @@ attrs = {
     'project_name': PROJECT_NAME,
     'base_url': HOMEPAGE,
     'domain_name': DOMAIN_NAME,
-    'flush': args.flush
+    'flush': args['--flush']
 }
 
 Spider(attrs)
