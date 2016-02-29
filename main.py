@@ -56,7 +56,7 @@ def work():
 
 # Each queued link is a new job
 def create_jobs():
-    for link in file_to_set(PROJECT_NAME + '/queue.txt'):
+    for link in file_to_set(QUEUE_FILE):
         queue.put(link)
     queue.join()
     crawl()
@@ -64,7 +64,7 @@ def create_jobs():
 
 # Check if there are items in the queue, if so crawl them
 def crawl():
-    queued_links = file_to_set(PROJECT_NAME + '/queue.txt')
+    queued_links = file_to_set(QUEUE_FILE)
     if queued_links:
         number_of_links = len(queued_links)
         print('{} links in the queue'.format(number_of_links))
