@@ -1,11 +1,11 @@
 """Multi-threaded website crawler written in Python.
 
 Usage:
-    main.py  [--flush]
+    main.py  [--flush=<boolean>]
 
 Options:
-    -h --help   Show this screen.
-    --flush     Empty project folder prior to crawling [default: True].
+    -h --help           Show this screen.
+    --flush=<boolean>   Empty project folder prior to crawling [default: True].
 
 """
 from docopt import docopt
@@ -18,7 +18,6 @@ from general import *
 
 
 args = docopt(__doc__)
-print(args)
 
 PROJECT_NAME = 'example'
 HOMEPAGE = 'http://example.com/'
