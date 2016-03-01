@@ -12,10 +12,15 @@ def create_project_dir(directory):
 def remove_data_files(project_name):
     queue = project_name + '/queue.txt'
     crawled = project_name + '/crawled.txt'
-    if os.path.isfile(queue):
-        os.remove(queue)
-    if os.path.isfile(crawled):
-        os.remove(crawled)
+    remove_file(queue)
+    remove_file(crawled)
+
+
+def remove_file(file):
+    try:
+        os.remove(filename)
+    except OSError:
+        pass
 
 
 # Create queue and crawled files (if not created)
@@ -34,18 +39,6 @@ def write_file(path, data):
         f.write(data)
 
 
-# Add data onto an existing file
-def append_to_file(path, data):
-    with open(path, 'a') as file:
-        file.write(data + '\n')
-
-
-# Delete the contents of a file
-def delete_file_contents(path):
-    with open(path, 'w'):
-        pass
-
-
 # Read a file and convert each line to set items
 def file_to_set(file_name):
     with open(file_name, 'rt') as f:
@@ -55,6 +48,6 @@ def file_to_set(file_name):
 
 # Iterate through a set, each item will be a line in a file
 def set_to_file(links, file):
-    delete_file_contents(file)
+    with open(file, 'w') as f:
     for link in sorted(links):
-        append_to_file(file, link)
+        f.write(link + '\n')
