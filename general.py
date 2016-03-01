@@ -9,7 +9,7 @@ def create_project_dir(directory):
 
 
 # Remove queue and crawled files (if exist)
-def remove_data_files(project_name, base_url):
+def remove_data_files(project_name):
     queue = project_name + '/queue.txt'
     crawled = project_name + '/crawled.txt'
     if os.path.isfile(queue):
