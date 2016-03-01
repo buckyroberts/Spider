@@ -1,13 +1,22 @@
 """Multi-threaded website crawler written in Python.
 
 Usage:
-    main.py  [--flush=<boolean>]
+    main.py crawl <url> [--project=<p>] [--flush=<boolean>]
+    main.py -h | --help
+
+Examples:
+    python main.py crawl http://www.example.com
+    python main.py crawl http://www.example.com --project example
+
+Arguments:
+    crawl <url>     Scrape url for links.
 
 Options:
-    -h --help           Show this screen.
-    --flush=<boolean>   Empty project folder prior to crawling [default: True].
-
+    -h, --help              Show this screen.
+    -f, --flush=<boolean>   Empty project folder prior to crawling [default: True].
+    -p, --project=<p>       Project name [default: example].
 """
+
 from docopt import docopt
 import threading
 import argparse
@@ -19,8 +28,10 @@ from general import *
 
 args = docopt(__doc__)
 
-PROJECT_NAME = 'example'
-HOMEPAGE = 'http://www.example.com/'
+print(args)
+
+PROJECT_NAME = args['--project']
+HOMEPAGE = args['<url>']
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
