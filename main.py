@@ -28,8 +28,6 @@ from general import *
 
 args = docopt(__doc__)
 
-print(args)
-
 PROJECT_NAME = args['--project']
 HOMEPAGE = args['<url>']
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
