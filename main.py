@@ -16,7 +16,6 @@ Options:
     -f, --flush=<boolean>   Empty project folder prior to crawling [default: True].
     -p, --project=<p>       Project name [default: example].
 """
-
 from docopt import docopt
 import threading
 import argparse
