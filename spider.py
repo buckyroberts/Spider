@@ -5,7 +5,6 @@ from general import *
 
 class Spider:
 
-    # Class variables (shared among all instances)
     project_name = ''
     base_url = ''
     domain_name = ''
@@ -45,7 +44,8 @@ class Spider:
         html_string = ''
         try:
             response = urlopen(page_url)
-            if response.getheader('Content-Type') == 'text/html':
+            if response.getheader('Content-Type') == 'text/html' or response.getheader(
+                    'content-type') == 'text/html;charset=utf-8':
                 html_bytes = response.read()
                 html_string = html_bytes.decode("utf-8")
             finder = LinkFinder(Spider.base_url, page_url)
@@ -58,9 +58,7 @@ class Spider:
     @staticmethod
     def add_links_to_queue(links):
         for url in links:
-            if url in Spider.queue:
-                continue
-            if url in Spider.crawled:
+            if (url in Spider.queue) or (url in Spider.crawled):
                 continue
             if Spider.domain_name not in url:
                 continue
