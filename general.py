@@ -1,21 +1,11 @@
 import os
 
 
-# Each website is a separate project (folder)
+# Each website you crawl is a separate project (folder)
 def create_project_dir(directory):
     if not os.path.exists(directory):
-        print('Creating directory ' + directory)
+        print('Creating project ' + directory)
         os.makedirs(directory)
-
-
-# Remove queue and crawled files (if exist)
-def remove_data_files(project_name):
-    queue = project_name + '/queue.txt'
-    crawled = project_name + '/crawled.txt'
-    if os.path.isfile(queue):
-        os.remove(queue)
-    if os.path.isfile(crawled):
-        os.remove(crawled)
 
 
 # Create queue and crawled files (if not created)
@@ -30,8 +20,9 @@ def create_data_files(project_name, base_url):
 
 # Create a new file
 def write_file(path, data):
-    with open(path, 'w') as f:
-        f.write(data)
+    f = open(path, 'w')
+    f.write(data)
+    f.close()
 
 
 # Add data onto an existing file
@@ -48,12 +39,14 @@ def delete_file_contents(path):
 
 # Read a file and convert each line to set items
 def file_to_set(file_name):
+    results = set()
     with open(file_name, 'rt') as f:
-        results = {line.replace('\n', '') for line in f}
+        for line in f:
+            results.add(line.replace('\n', ''))
     return results
 
 
-# Iterate through a set, each item will be a line in a file
+# Iterate through a set, each item will be a new line in the file
 def set_to_file(links, file):
     delete_file_contents(file)
     for link in sorted(links):

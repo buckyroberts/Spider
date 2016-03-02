@@ -1,33 +1,17 @@
 import threading
-import argparse
 from queue import Queue
 from spider import Spider
 from domain import *
 from general import *
 
-parser = argparse.ArgumentParser(description="Multi-rhreaded website crawler written in Python")
-
-parser.add_argument("--flush", help="empty project folder prior to crawling", action="store_true")
-
-args = parser.parse_args()
-
 PROJECT_NAME = 'example'
-HOMEPAGE = 'http://www.example.com/'
+HOMEPAGE = 'http://example.com/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
-
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
 NUMBER_OF_THREADS = 8
 queue = Queue()
-
-attrs = {
-    'project_name': PROJECT_NAME,
-    'base_url': HOMEPAGE,
-    'domain_name': DOMAIN_NAME,
-    'flush': args.flush
-}
-
-Spider(attrs)
+Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 
 
 # Create worker threads (will die when main exits)
@@ -57,10 +41,10 @@ def create_jobs():
 # Check if there are items in the queue, if so crawl them
 def crawl():
     queued_links = file_to_set(QUEUE_FILE)
-    if queued_links:
-        number_of_links = len(queued_links)
-        print('{} links in the queue'.format(number_of_links))
+    if len(queued_links) > 0:
+        print(str(len(queued_links)) + ' links in the queue')
         create_jobs()
+
 
 create_workers()
 crawl()
