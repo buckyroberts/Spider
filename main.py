@@ -1,3 +1,13 @@
+"""
+    Usage: python3 main.py [-h] -p <project name> -u <homepage> [-j <number of threads>]
+
+    Examples:
+        python3 main.py -p thenewboston -u https://thenewboston.com
+        python3 main.py -p thenewboston -u https://thenewboston.com -j20    # 20 threads
+        python3 main.py -h  # Displays usage
+
+"""
+
 import threading
 from queue import Queue
 from spider import Spider
@@ -48,12 +58,12 @@ def crawl():
         create_jobs()
 
 
-# Print usage
+# Print usage and exit
 def usage():
     print('Usage: ' + sys.argv[0] + ' [-h] -p <project name> -u <homepage> [-j <number of threads>]')
     sys.exit()
 
-# getopt
+# Set constants to values provided by command line
 def options():
     global PROJECT_NAME
     global HOMEPAGE
@@ -78,7 +88,11 @@ def options():
         elif opt == '-u':
             HOMEPAGE = val
         elif opt == '-j':
-            NUMBER_OF_THREADS = int(val)
+            try:
+                NUMBER_OF_THREADS = int(val)
+            except:
+                print('Value for option -j should be an integer.')
+                usage()
 
     if HOMEPAGE == '' or PROJECT_NAME == '':
         usage()
