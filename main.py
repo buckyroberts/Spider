@@ -3,7 +3,7 @@
 
     Examples:
         python3 main.py -p thenewboston -u https://thenewboston.com         # Specified project folder
-        python3 main.py -u https://thenewboston.com                         # Creates project folder 
+        python3 main.py -u https://thenewboston.com                         # Creates project folder thenewboston.com
         python3 main.py -p thenewboston -u https://thenewboston.com -j20    # 20 threads
         python3 main.py -h                                                  # Displays usage
 
