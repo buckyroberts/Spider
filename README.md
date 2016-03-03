@@ -16,7 +16,7 @@ Examples:
 
 	$ python3 main.py -w -u https://thenewboston.com -p thenewboston
 	$ python3 main.py -u https://thenewboston.com -j2
-	$ python3 main.py -u https://thenewboston.com -p testproject
+	$ python3 main.py -u https://thenewboston.com
 
 
 ### Links
