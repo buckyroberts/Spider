@@ -1,9 +1,9 @@
 """
-    Usage: python3 main.py [-h] -u <homepage> [-p <project name>] [-j <number of threads>]
+    Usage: python3 main.py [-h] [-w] -u <homepage> [-p <project name>] [-j <number of threads>]
 
     Examples:
         python3 main.py -p thenewboston -u https://thenewboston.com         # Specified project folder
-        python3 main.py -u https://thenewboston.com                         # Creates project folder thenewboston.com
+        python3 main.py -u https://thenewboston.com                         # Creates project folder 
         python3 main.py -p thenewboston -u https://thenewboston.com -j20    # 20 threads
         python3 main.py -h                                                  # Displays usage
 
@@ -15,6 +15,7 @@ from spider import Spider
 from domain import *
 from general import *
 import getopt, sys
+import signal
 
 
 PROJECT_NAME = ''
@@ -59,9 +60,32 @@ def crawl():
         create_jobs()
 
 
-# Print usage and exit
+# Cleanup and quit
+def quit_gracefully(signal=None, frame=None):
+    print("\nQuitting.")
+    with queue.mutex: queue.queue.clear()
+    sys.exit(0)
+
+# Enable process termination
+def register_signal_handler():
+    signal.signal(signal.SIGINT, quit_gracefully)
+    signal.signal(signal.SIGTERM, quit_gracefully)
+
+
+# Print short usage and exit
 def usage():
-    print('Usage: ' + sys.argv[0] + ' [-h] -u <homepage> [-p <project name>] [-j <number of threads>]')
+    print('Usage: ' + sys.argv[0] + ' [-h] [-w] -u <homepage> [-p <project name>] [-j <number of threads>]')
+    sys.exit()
+
+# Print detailed usage and exit
+def detailed_usage():
+    print('\nUsage: ' + sys.argv[0] + ' [-h] [-w] -u <homepage> [-p <project name>] [-j <number of threads>]\n')
+    print('Options:')
+    print('-h\t\tDisplays this help')
+    print('-w\t\tWipe existing files (start fresh)')
+    print('-u <url>\tThe homepage/starting point')
+    print('-p <project>\tSpecify a specific output folder')
+    print('-j <number>\tSpecify number of crawling threads\n')
     sys.exit()
 
 # Set constants to values provided by command line
@@ -72,8 +96,9 @@ def options():
     global DOMAIN_NAME
     global QUEUE_FILE
     global CRAWLED_FILE
+    wipe = False
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'hp:u:j:')
+        opts, args = getopt.getopt(sys.argv[1:], 'hwp:u:j:')
     except getopt.GetoptError as e:
         print(str(e))
         usage()
@@ -83,7 +108,9 @@ def options():
 
     for opt, val in opts:
         if opt == '-h':
-            usage()
+            detailed_usage()
+        elif opt == '-w':
+            wipe = True
         elif opt == '-p':
             PROJECT_NAME = val
         elif opt == '-u':
@@ -110,14 +137,14 @@ def options():
     QUEUE_FILE = PROJECT_NAME + '/queue.txt'
     CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
 
-   
-
-
-
-        
+    if wipe:
+        delete_file_contents(QUEUE_FILE)
+        delete_file_contents(CRAWLED_FILE)
+     
 
 
 def main():
+    register_signal_handler()
     options()
     Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
     create_workers()
@@ -127,6 +154,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
 
 
