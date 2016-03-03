@@ -1,10 +1,11 @@
 """
-    Usage: python3 main.py [-h] -p <project name> -u <homepage> [-j <number of threads>]
+    Usage: python3 main.py [-h] -u <homepage> [-p <project name>] [-j <number of threads>]
 
     Examples:
-        python3 main.py -p thenewboston -u https://thenewboston.com
+        python3 main.py -p thenewboston -u https://thenewboston.com         # Specified project folder
+        python3 main.py -u https://thenewboston.com                         # Creates project folder thenewboston.com
         python3 main.py -p thenewboston -u https://thenewboston.com -j20    # 20 threads
-        python3 main.py -h  # Displays usage
+        python3 main.py -h                                                  # Displays usage
 
 """
 
@@ -60,7 +61,7 @@ def crawl():
 
 # Print usage and exit
 def usage():
-    print('Usage: ' + sys.argv[0] + ' [-h] -p <project name> -u <homepage> [-j <number of threads>]')
+    print('Usage: ' + sys.argv[0] + ' [-h] -u <homepage> [-p <project name>] [-j <number of threads>]')
     sys.exit()
 
 # Set constants to values provided by command line
@@ -94,9 +95,13 @@ def options():
                 print('Value for option -j should be an integer.')
                 usage()
 
-    if HOMEPAGE == '' or PROJECT_NAME == '':
+    if HOMEPAGE == '':
         usage()
 
+    if PROJECT_NAME == '':
+        PROJECT_NAME = get_domain_name(HOMEPAGE)
+
+   
     DOMAIN_NAME = get_domain_name(HOMEPAGE)
 
     if DOMAIN_NAME == '':
