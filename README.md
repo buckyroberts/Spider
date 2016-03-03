@@ -13,6 +13,7 @@ Note: This is part of an open source search engine. The purpose of this tool is 
 	$ python3 main.py [-h] [-w] -u <homepage> [-p <project name>] [-j <number of threads>]
 
 Examples:
+
 	$ python3 main.py -w -u [https://thenewboston.com](https://thenewboston.com/) -p thenewboston
 	$ python3 main.py -u [https://thenewboston.com](https://thenewboston.com/) -j1
 
