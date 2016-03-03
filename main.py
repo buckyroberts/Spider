@@ -3,15 +3,17 @@ from queue import Queue
 from spider import Spider
 from domain import *
 from general import *
+import getopt, sys
 
-PROJECT_NAME = 'thenewboston'
-HOMEPAGE = 'https://thenewboston.com/'
-DOMAIN_NAME = get_domain_name(HOMEPAGE)
-QUEUE_FILE = PROJECT_NAME + '/queue.txt'
-CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
+
+PROJECT_NAME = ''
+HOMEPAGE = ''
+DOMAIN_NAME = ''
+QUEUE_FILE = ''
+CRAWLED_FILE = ''
 NUMBER_OF_THREADS = 8
 queue = Queue()
-Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
+
 
 
 # Create worker threads (will die when main exits)
@@ -46,5 +48,67 @@ def crawl():
         create_jobs()
 
 
-create_workers()
-crawl()
+# Print usage
+def usage():
+    print('Usage: ' + sys.argv[0] + ' [-h] -p <project name> -u <homepage> [-j <number of threads>]')
+    sys.exit()
+
+# getopt
+def options():
+    global PROJECT_NAME
+    global HOMEPAGE
+    global NUMBER_OF_THREADS
+    global DOMAIN_NAME
+    global QUEUE_FILE
+    global CRAWLED_FILE
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'hp:u:j:')
+    except getopt.GetoptError as e:
+        print(str(e))
+        usage()
+
+    if len(args) != 0:
+        usage()
+
+    for opt, val in opts:
+        if opt == '-h':
+            usage()
+        elif opt == '-p':
+            PROJECT_NAME = val
+        elif opt == '-u':
+            HOMEPAGE = val
+        elif opt == '-j':
+            NUMBER_OF_THREADS = int(val)
+
+    if HOMEPAGE == '' or PROJECT_NAME == '':
+        usage()
+
+    DOMAIN_NAME = get_domain_name(HOMEPAGE)
+
+    if DOMAIN_NAME == '':
+        usage()
+
+    QUEUE_FILE = PROJECT_NAME + '/queue.txt'
+    CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
+
+   
+
+
+
+        
+
+
+def main():
+    options()
+    Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
+    create_workers()
+    crawl()
+
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
