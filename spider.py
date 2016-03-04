@@ -1,5 +1,6 @@
 from urllib.request import urlopen
 from link_finder import LinkFinder
+from domain import *
 from general import *
 
 
@@ -59,7 +60,7 @@ class Spider:
         for url in links:
             if (url in Spider.queue) or (url in Spider.crawled):
                 continue
-            if Spider.domain_name not in url:
+            if Spider.domain_name != get_domain_name(url):
                 continue
             Spider.queue.add(url)
 
