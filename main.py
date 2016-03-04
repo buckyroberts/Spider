@@ -109,6 +109,8 @@ def options():
 	global CRAWLED_FILE
 	global keep
 	wipe = False
+	opts = None
+	args = None
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], 'hwkp:u:j:')
 	except getopt.GetoptError as e:
