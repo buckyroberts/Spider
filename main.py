@@ -64,6 +64,7 @@ def crawl():
 def quit_gracefully(signal=None, frame=None):
 	print("\nQuitting.")
 	with queue.mutex: queue.queue.clear()
+	del queue
 	sys.exit(0)
 
 # Enable process termination
