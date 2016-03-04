@@ -85,7 +85,7 @@ def detailed_usage():
 	print('-w\t\tWipe existing files (start fresh)')
 	print('-u <url>\tThe homepage/starting point')
 	print('-p <project>\tSpecify a specific output folder')
-	print('-j <number>\tSpecify number of crawling threads\n')
+	print('-j <number>\tSpecify number of crawling threads. Default 8\n')
 	sys.exit()
 
 # Set constants to values provided by command line
