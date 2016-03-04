@@ -1,8 +1,8 @@
 """
-    Usage: python3 main.py [-h] [-w] -u <homepage> [-p <project name>] [-j <number of threads>]
+    Usage: python3 main.py [-h] [-w] -u <homepage> [-p <project folder>] [-j <number of threads>]
 
     Examples:
-        python3 main.py -p thenewboston -u https://thenewboston.com         # Specified project folder
+        python3 main.py -p ../thenewboston -u https://thenewboston.com      # Specified project folder
         python3 main.py -u https://thenewboston.com                         # Creates project folder thenewboston.com
         python3 main.py -p thenewboston -u https://thenewboston.com -j20    # 20 threads
         python3 main.py -h                                                  # Displays usage
@@ -74,12 +74,12 @@ def register_signal_handler():
 
 # Print short usage and exit
 def usage():
-    print('Usage: ' + sys.argv[0] + ' [-h] [-w] -u <homepage> [-p <project name>] [-j <number of threads>]')
+    print('Usage: ' + sys.argv[0] + ' [-h] [-w] -u <homepage> [-p <project folder>] [-j <number of threads>]')
     sys.exit()
 
 # Print detailed usage and exit
 def detailed_usage():
-    print('\nUsage: ' + sys.argv[0] + ' [-h] [-w] -u <homepage> [-p <project name>] [-j <number of threads>]\n')
+    print('\nUsage: ' + sys.argv[0] + ' [-h] [-w] -u <homepage> [-p <project folder>] [-j <number of threads>]\n')
     print('Options:')
     print('-h\t\tDisplays this help')
     print('-w\t\tWipe existing files (start fresh)')
@@ -122,7 +122,14 @@ def options():
                 print('Value for option -j should be an integer.')
                 usage()
 
+
+
+
     if HOMEPAGE == '':
+        usage()
+
+    if NUMBER_OF_THREADS <= 0:
+    	print('Value for option -j should be greater than 0.')
         usage()
 
     if PROJECT_NAME == '':
