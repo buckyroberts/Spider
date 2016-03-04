@@ -23,6 +23,7 @@ class Spider:
         self.boot()
         self.crawl_page('First spider', Spider.base_url)
 
+    # Creates directory and files for project on first run and starts the spider
     @staticmethod
     def boot():
         create_project_dir(Spider.project_name)
@@ -30,6 +31,7 @@ class Spider:
         Spider.queue = file_to_set(Spider.queue_file)
         Spider.crawled = file_to_set(Spider.crawled_file)
 
+    # Updates user display, fills queue and updates files
     @staticmethod
     def crawl_page(thread_name, page_url):
         if page_url not in Spider.crawled:
@@ -40,6 +42,7 @@ class Spider:
             Spider.crawled.add(page_url)
             Spider.update_files()
 
+    # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
     def gather_links(page_url):
         html_string = ''
@@ -55,6 +58,7 @@ class Spider:
             return set()
         return finder.page_links()
 
+    # Saves queue data to project files
     @staticmethod
     def add_links_to_queue(links):
         for url in links:
