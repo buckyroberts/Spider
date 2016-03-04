@@ -1,10 +1,12 @@
 """
-    Usage: python3 main.py [-h] [-w] -u <homepage> [-p <project folder>] [-j <number of threads>]
+    Usage: python3 main.py [-h] [-wk] -u <homepage> [-p <project folder>] [-j <number of threads>]
 
     Examples:
         python3 main.py -p ../thenewboston -u https://thenewboston.com      # Specified project folder
         python3 main.py -u https://thenewboston.com                         # Creates project folder thenewboston.com
-        python3 main.py -p thenewboston -u https://thenewboston.com -j20    # 20 threads
+        python3 main.py -w -u https://thenewboston.com						# start fresh (wipe existing files)
+        python3 main.py -k -u https://thenewboston.com						# keep the data
+        python3 main.py -wk -u https://thenewboston.com -j20    			# 20 threads
         python3 main.py -h                                                  # Displays usage
 
 """
@@ -24,6 +26,7 @@ DOMAIN_NAME = ''
 QUEUE_FILE = ''
 CRAWLED_FILE = ''
 NUMBER_OF_THREADS = 8
+keep = False
 queue = Queue()
 
 
@@ -62,9 +65,15 @@ def crawl():
 
 # Cleanup and quit
 def quit_gracefully(signal=None, frame=None):
+	global queue
 	print("\nQuitting.")
 	with queue.mutex: queue.queue.clear()
 	del queue
+	if not keep:
+		try:
+			delete_file_contents(QUEUE_FILE)
+		except:
+			pass
 	sys.exit(0)
 
 # Enable process termination
@@ -75,15 +84,16 @@ def register_signal_handler():
 
 # Print short usage and exit
 def usage():
-	print('Usage: ' + sys.argv[0] + ' [-h] [-w] -u <homepage> [-p <project folder>] [-j <number of threads>]')
+	print('Usage: ' + sys.argv[0] + ' [-h] [-wk] -u <homepage> [-p <project folder>] [-j <number of threads>]')
 	sys.exit()
 
 # Print detailed usage and exit
 def detailed_usage():
-	print('\nUsage: ' + sys.argv[0] + ' [-h] [-w] -u <homepage> [-p <project folder>] [-j <number of threads>]\n')
+	print('\nUsage: ' + sys.argv[0] + ' [-h] [-wk] -u <homepage> [-p <project folder>] [-j <number of threads>]\n')
 	print('Options:')
 	print('-h\t\tDisplays this help')
 	print('-w\t\tWipe existing files (start fresh)')
+	print('-k\t\tKeep the queue file contents (continue crawling at a different time)')
 	print('-u <url>\tThe homepage/starting point')
 	print('-p <project>\tSpecify a specific output folder')
 	print('-j <number>\tSpecify number of crawling threads. Default 8\n')
@@ -97,9 +107,10 @@ def options():
 	global DOMAIN_NAME
 	global QUEUE_FILE
 	global CRAWLED_FILE
+	global keep
 	wipe = False
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], 'hwp:u:j:')
+		opts, args = getopt.getopt(sys.argv[1:], 'hwkp:u:j:')
 	except getopt.GetoptError as e:
 		print(str(e))
 		usage()
@@ -116,6 +127,8 @@ def options():
 			PROJECT_NAME = val
 		elif opt == '-u':
 			HOMEPAGE = val
+		elif opt == '-k':
+			keep = True
 		elif opt == '-j':
 			try:
 				NUMBER_OF_THREADS = int(val)
