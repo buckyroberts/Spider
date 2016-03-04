@@ -3,10 +3,10 @@
 
     Examples:
         python3 main.py -p ../thenewboston -u https://thenewboston.com      # Specified project folder
-        python3 main.py -u https://thenewboston.com                         # Creates project folder thenewboston.com
-        python3 main.py -w -u https://thenewboston.com						# start fresh (wipe existing files)
-        python3 main.py -k -u https://thenewboston.com						# keep the data
-        python3 main.py -wk -u https://thenewboston.com -j20    			# 20 threads
+        python3 main.py -u https://thenewboston.com                       	# Creates project folder thenewboston.com
+        python3 main.py -w -u https://thenewboston.com                      # start fresh (wipe existing files)
+        python3 main.py -k -u https://thenewboston.com                      # keep the data
+        python3 main.py -wk -u https://thenewboston.com -j20                # 20 threads
         python3 main.py -h                                                  # Displays usage
 
 """
