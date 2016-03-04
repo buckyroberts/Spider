@@ -65,10 +65,8 @@ def crawl():
 
 # Cleanup and quit
 def quit_gracefully(signal=None, frame=None):
-	global queue
 	print("\nQuitting.")
 	with queue.mutex: queue.queue.clear()
-	del queue
 	if not keep:
 		try:
 			delete_file_contents(QUEUE_FILE)
