@@ -28,6 +28,8 @@ class Spider:
         create_data_files((Spider.queue_file, Spider.crawled_file), Spider.base_url)
         Spider.queue = file_to_set(Spider.queue_file)
         Spider.crawled = file_to_set(Spider.crawled_file)
+        if Spider.base_url in Spider.crawled:
+            Spider.crawled.remove(Spider.base_url)
 
     @staticmethod
     def crawl_page(thread_name, page_url):
