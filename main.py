@@ -242,17 +242,22 @@ def options():
 
 	QUEUE_FILE = PROJECT_FOLDER + queue_filename
 	CRAWLED_FILE = PROJECT_FOLDER + crawled_filename
+	try:
+		if file_to_set(QUEUE_FILE).empty() and not file_to_set(CRAWLED_FILE).empty():
+			wipe = True
+	except:
+		pass
+	finally:	
+		if wipe:
+			try:
+				delete_file_contents(QUEUE_FILE)
+			except:
+				pass
 
-	if wipe:
-		try:
-			delete_file_contents(QUEUE_FILE)
-		except:
-			pass
-
-		try:
-			delete_file_contents(CRAWLED_FILE)
-		except:
-			pass
+			try:
+				delete_file_contents(CRAWLED_FILE)
+			except:
+				pass
 
 
 def main():
