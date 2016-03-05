@@ -7,8 +7,23 @@
         python3 main.py -w -u https://thenewboston.com                      # start fresh (wipe existing files)
         python3 main.py -k -u https://thenewboston.com                      # keep the data
         python3 main.py -wk -u https://thenewboston.com -j20                # 20 threads
-        python3 main.py -f config.json -j20 -wk                             # Load file config.json
+        python3 main.py -wkf config.json -j20                               # Load file config.json
+        python3 main.py -wkf config.json -q best_queue.txt                  # Load config but specfify queue file (will override config) 
         python3 main.py -h                                                  # Displays usage
+
+
+	Config file parameters:
+		{
+			"homepage": "url",
+			"crawled_file": "filename",
+			"queue_file": "filename",
+			"project_folder": "folder name"
+		}
+
+	Example:
+		{
+			"homepage": "https://thenewboston.com"
+		}
 
 """
 
@@ -99,7 +114,7 @@ def detailed_usage():
 	print('-u <url>\tThe homepage/starting point')
 	print('-p <project>\tSpecify a specific output folder')
 	print('-c <filename>\tSpecify a specific filename for the crawled file (default crawled.txt)')
-	print('-q <filename>\tSpecify a specific filename for the crawled file (default queue.txt)')
+	print('-q <filename>\tSpecify a specific filename for the queue file (default queue.txt)')
 	print('-f <filename>\tLoad in a json config file\n')
 	
 	sys.exit()
@@ -146,13 +161,13 @@ def options():
 			if not '/' in val:
 				queue_filename = '/' + val
 			else:
-				print('Value for option -q should not contain /')
+				print('Value for option -q should not contain "/"')
 				usage()
 		elif opt == '-c':
 			if not '/' in val:
 				crawled_filename = '/' + val
 			else:
-				print('Value for option -c should not contain /')
+				print('Value for option -c should not contain "/"')
 				usage()
 		elif opt == '-j':
 			try:
@@ -163,15 +178,16 @@ def options():
 
 
 
-
+	# config file given
 	if config_file is not None:
 		constants = None
 		config = Config(config_file)
 		try:
 			constants = config.get()
 		except Exception as e:
-			print('There was an error in your JSON: ' + str(e))
+			print('There was a problem with your JSON: ' + str(e))
 			usage()
+
 		if HOMEPAGE == '':
 			try:
 				HOMEPAGE = constants['homepage']
@@ -186,15 +202,24 @@ def options():
 				PROJECT_FOLDER = ''
 
 		if queue_filename == '/queue.txt':
+
 			try:
-				queue_filename = '/' + constants['queue_file']
+				if '/' not in constants['queue_file']:
+					queue_filename = '/' + constants['queue_file']
+				else:
+					print('Value for "queue_file" contained "/". Using '+ PROJECT_FOLDER +'/queue.txt')
+					raise
 			except:
 				queue_filename = '/queue.txt'
 
 		if crawled_filename == '/crawled.txt':
-
+			
 			try:
-				crawled_filename = '/' + constants['crawled_file']
+				if '/' not in constants['crawled_file']:
+					crawled_filename = '/' + constants['crawled_file']
+				else:
+					print('Value for "crawled_file" contained "/". Using '+ PROJECT_FOLDER +'/crawled.txt')
+					raise
 			except:
 				crawled_filename = '/crawled.txt'
 		

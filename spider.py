@@ -25,7 +25,7 @@ class Spider:
     @staticmethod
     def boot():
         create_project_dir(Spider.project_folder)
-        create_data_files(Spider.project_folder, Spider.base_url)
+        create_data_files((Spider.queue_file, Spider.crawled_file), Spider.base_url)
         Spider.queue = file_to_set(Spider.queue_file)
         Spider.crawled = file_to_set(Spider.crawled_file)
 
