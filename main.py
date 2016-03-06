@@ -154,13 +154,13 @@ def options():
         elif opt == '-k':
             keep = True
         elif opt == '-q':
-            if not '/' in val:
+            if '/' not in val:
                 queue_filename = '/' + val
             else:
                 print('Value for option -q should not contain "/"')
                 usage()
         elif opt == '-c':
-            if not '/' in val:
+            if '/' not in val:
                 crawled_filename = '/' + val
             else:
                 print('Value for option -c should not contain "/"')
