@@ -1,32 +1,21 @@
 """
-    Usage: python3 main.py [-h] [-wk] -f <file> | -u <homepage> [-q <file>] [-c <file>] [-p <project>] [-j <number>]
+    Usage: main.py [-h] [-wk] -f <file> | -u <homepage> [-q <file>] [-c <file>] [-p <project>] [-j <number>]
 
     Examples:
-        python3 main.py -p ../thenewboston -u https://thenewboston.com      # Specified project folder
-        python3 main.py -u https://thenewboston.com                         # Creates project folder thenewboston.com
-        python3 main.py -w -u https://thenewboston.com                      # start fresh (wipe existing files)
-        python3 main.py -k -u https://thenewboston.com                      # keep the data
-        python3 main.py -wk -u https://thenewboston.com -j20                # 20 threads
-        python3 main.py -wkf config.json -j20                               # Load file config.json
-        python3 main.py -wkf config.json -q best_queue.txt                  # Load config but specfify queue file (will override config) 
-        python3 main.py -h                                                  # Displays usage
-
+        main.py -p ../thenewboston -u https://thenewboston.com      # Specified project folder
+        main.py -u https://thenewboston.com                         # Creates project folder thenewboston.com
+        main.py -wku https://thenewboston.com -j20                  # 20 threads, wipe existing files, keep queue data
+        main.py -f config.json -q best_queue.txt                    # Load config but specfify queue file (will override config) 
+        main.py -h                                                  # Displays usage
 
 	Config file parameters:
-		{
-			"homepage": "url",
-			"crawled_file": "filename",
-			"queue_file": "filename",
-			"project_folder": "folder name"
-		}
-
-	Example:
-		{
-			"homepage": "https://thenewboston.com"
-		}
-
+    {
+        "homepage": "url",
+        "crawled_file": "filename",
+        "queue_file": "filename",
+        "project_folder": "folder name"
+    }
 """
-
 
 from queue import Queue
 from spider import Spider
@@ -116,6 +105,13 @@ def detailed_usage():
     print('-c <filename>\tSpecify a specific filename for the crawled file (default crawled.txt)')
     print('-q <filename>\tSpecify a specific filename for the queue file (default queue.txt)')
     print('-f <filename>\tLoad in a json config file\n')
+    print('Config file:\n'
+          '{\n'
+          '    "homepage": "url",\n'
+          '    "crawled_file": "filename",\n'
+          '    "queue_file": "filename",\n'
+          '    "project_folder": "folder name"\n'
+          '}\n')
 
     sys.exit()
 
@@ -176,8 +172,6 @@ def options():
                 print('Value for option -j should be an integer.')
                 usage()
 
-
-
     # config file given
     if config_file is not None:
         constants = None
@@ -215,16 +209,16 @@ def options():
             except:
                 queue_filename = '/queue.txt'
 
-    if crawled_filename == '/crawled.txt':
+        if crawled_filename == '/crawled.txt':
 
-        try:
-            if '/' not in constants['crawled_file']:
-                crawled_filename = '/' + constants['crawled_file']
-            else:
-                print('Value for "crawled_file" contained "/". Using '+ PROJECT_FOLDER +'/crawled.txt')
-            raise
-        except:
-            crawled_filename = '/crawled.txt'
+            try:
+                if '/' not in constants['crawled_file']:
+                    crawled_filename = '/' + constants['crawled_file']
+                else:
+                    print('Value for "crawled_file" contained "/". Using '+ PROJECT_FOLDER +'/crawled.txt')
+                    raise
+            except:
+                crawled_filename = '/crawled.txt'
 		
 
     if HOMEPAGE == '':
