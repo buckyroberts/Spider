@@ -94,18 +94,18 @@ def usage():
 
 # Print detailed usage and exit
 def detailed_usage():
-    print('\nUsage: ' + sys.argv[0] + ' [-h] [-wk] -f <file> | -u <homepage> [-q <file>] [-c <file>] [-p <project>] [-j <number>]\n')
-    print('Options:\n')
-    print('-h\t\tDisplays this help')
-    print('-w\t\tWipe existing files (start fresh)')
-    print('-k\t\tKeep the queue file contents (continue crawling at a different time)')
-    print('-j <number>\tSpecify number of crawling threads (default 8)\n')
-    print('-u <url>\tThe homepage/starting point')
-    print('-p <project>\tSpecify a specific output folder')
-    print('-c <filename>\tSpecify a specific filename for the crawled file (default crawled.txt)')
-    print('-q <filename>\tSpecify a specific filename for the queue file (default queue.txt)')
-    print('-f <filename>\tLoad in a json config file\n')
-    print('Config file:\n'
+    print('\nUsage: ' + sys.argv[0] + ' [-h] [-wk] -f <file> | -u <homepage> [-q <file>] [-c <file>] [-p <project>] [-j <number>]\n\n'
+          'Options:\n\n'
+          '-h\t\tDisplays this help\n'
+          '-w\t\tWipe existing files (start fresh)\n'
+          '-k\t\tKeep the queue file contents (continue crawling at a different time)\n'
+          '-j <number>\tSpecify number of crawling threads (default 8)\n\n'
+          '-u <url>\tThe homepage/starting point\n'
+          '-p <project>\tSpecify a specific output folder\n'
+          '-c <filename>\tSpecify a specific filename for the crawled file (default crawled.txt)\n'
+          '-q <filename>\tSpecify a specific filename for the queue file (default queue.txt)\n'
+          '-f <filename>\tLoad in a json config file\n\n'
+          'Config file:\n'
           '{\n'
           '    "homepage": "url",\n'
           '    "crawled_file": "filename",\n'
