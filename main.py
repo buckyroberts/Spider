@@ -8,7 +8,7 @@
         main.py -f config.json -q best_queue.txt                    # Load config but specfify queue file (will override config) 
         main.py -h                                                  # Displays usage
 
-	Config file parameters:
+    Config file parameters:
     {
         "homepage": "url",
         "crawled_file": "filename",
