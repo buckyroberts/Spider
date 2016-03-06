@@ -30,7 +30,7 @@
 
 from queue import Queue
 from spider import Spider
-from config import Config
+from config import *
 from domain import *
 from general import *
 import threading
@@ -181,9 +181,12 @@ def options():
 	# config file given
 	if config_file is not None:
 		constants = None
-		config = Config(config_file)
+		
 		try:
-			constants = config.get()
+			constants = load_config(config_file)
+		except FileNotFoundError:
+			print('File '+ config_file +' does not exist.')
+			usage()
 		except Exception as e:
 			print('There was a problem with your JSON: ' + str(e))
 			usage()
