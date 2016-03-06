@@ -69,8 +69,8 @@ def work():
 def create_jobs():
     for link in file_to_set(QUEUE_FILE):
         queue.put(link)
-        queue.join()
-        crawl()
+    queue.join()
+    crawl()
 
 
 # Check if there are items in the queue, if so crawl them
