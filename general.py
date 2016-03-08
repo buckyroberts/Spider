@@ -47,6 +47,6 @@ def file_to_set(file_name):
 
 # Iterate through a set, each item will be a line in a file
 def set_to_file(links, file):
-    delete_file_contents(file)
-    for link in sorted(links):
-        append_to_file(file, link)
+    with open(filename,"w") as f:
+        for l in sorted(links):
+            f.write(l+"\n")
