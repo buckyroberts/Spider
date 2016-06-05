@@ -1,11 +1,13 @@
+#!usr/bin/env python
+# -*- coding:utf-8 -*-
 import threading
-from queue import Queue
+from Queue import Queue
 from spider import Spider
 from domain import *
 from general import *
 
-PROJECT_NAME = 'thenewboston'
-HOMEPAGE = 'https://thenewboston.com/'
+PROJECT_NAME = 'shellbye'
+HOMEPAGE = 'http://shellbye.com/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
@@ -18,6 +20,7 @@ Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 def create_workers():
     for _ in range(NUMBER_OF_THREADS):
         t = threading.Thread(target=work)
+        #把子线程设为daemon = True，主线程则不会等待子线程，执行完之后会直接退出
         t.daemon = True
         t.start()
 

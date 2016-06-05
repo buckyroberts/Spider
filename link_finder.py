@@ -1,25 +1,25 @@
-from html.parser import HTMLParser
-from urllib import parse
+from urlparse import urljoin
+from formatter import DumbWriter,AbstractFormatter
+from htmllib import HTMLParser
+from cStringIO import StringIO
+from string import find
 
+class LinkFinder(object):
 
-class LinkFinder(HTMLParser):
-
-    def __init__(self, base_url, page_url):
-        super().__init__()
+    def __init__(self,base_url,page_url):
         self.base_url = base_url
         self.page_url = page_url
-        self.links = set()
 
-    # When we call HTMLParser feed() this function is called when it encounters an opening tag <a>
-    def handle_starttag(self, tag, attrs):
-        if tag == 'a':
-            for (attribute, value) in attrs:
-                if attribute == 'href':
-                    url = parse.urljoin(self.base_url, value)
-                    self.links.add(url)
-
-    def page_links(self):
-        return self.links
-
-    def error(self, message):
-        pass
+    def parseAndGetLinks(self,html_string):
+        try:
+            self.parser = HTMLParser(AbstractFormatter(DumbWriter(StringIO())))
+            self.parser.feed(html_string)
+            self.parser.close()
+            links = []
+            for eachLink in self.parser.anchorlist:
+                if eachLink[:4] != "http" and find(eachLink, "://") == -1:
+                    eachLink = urljoin(self.base_url, eachLink)
+                links.append(eachLink)
+            return links
+        except IOError:
+            return []

@@ -1,4 +1,4 @@
-from urllib.request import urlopen
+from urllib import urlopen
 from link_finder import LinkFinder
 from domain import *
 from general import *
@@ -46,17 +46,18 @@ class Spider:
     @staticmethod
     def gather_links(page_url):
         html_string = ''
-        try:
-            response = urlopen(page_url)
-            if 'text/html' in response.getheader('Content-Type'):
-                html_bytes = response.read()
-                html_string = html_bytes.decode("utf-8")
-            finder = LinkFinder(Spider.base_url, page_url)
-            finder.feed(html_string)
-        except Exception as e:
+        #try:
+        response = urlopen(page_url)
+        #if 'text/html' in response.getheader('Content-Type'):
+        html_bytes = response.read()
+        html_string = html_bytes
+        finder = LinkFinder(Spider.base_url, page_url)
+        links = finder.parseAndGetLinks(html_string)
+        '''except Exception as e:
             print(str(e))
-            return set()
-        return finder.page_links()
+            return set()'''
+        return links
+
 
     # Saves queue data to project files
     @staticmethod
