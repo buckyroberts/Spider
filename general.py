@@ -1,21 +1,22 @@
 import os
+from config import *
 
+# Each website is in a folder depending on status
+def create_project_dir():
+    if not os.path.exists(CRAWLED_PATH):
+        print('Creating directory : ['+CRAWLED_PATH+']')
+        os.makedirs(CRAWLED_PATH)
+    if not os.path.exists(QUEUE_PATH):
+        print('Creating directory : ['+QUEUE_PATH+']')
+        os.makedirs(QUEUE_PATH)
 
-# Each website is a separate project (folder)
-def create_project_dir(directory):
-    if not os.path.exists(directory):
-        print('Creating directory ' + directory)
-        os.makedirs(directory)
-
-
-# Create queue and crawled files (if not created)
-def create_data_files(project_name, base_url):
-    queue = os.path.join(project_name , 'queue.txt')
-    crawled = os.path.join(project_name,"crawled.txt")
-    if not os.path.isfile(queue):
-        write_file(queue, base_url)
-    if not os.path.isfile(crawled):
-        write_file(crawled, '')
+# Create project file inside queue and crawled folders (if not created)
+def create_data_files():
+    create_project_dir()
+    if not os.path.isfile(QUEUE_FILE):
+        write_file(QUEUE_FILE, HOMEPAGE)
+    if not os.path.isfile(CRAWLED_FILE):
+        write_file(CRAWLED_FILE, '')
 
 
 # Create a new file

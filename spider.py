@@ -6,30 +6,19 @@ from general import *
 
 class Spider:
 
-    project_name = ''
-    base_url = ''
-    domain_name = ''
-    queue_file = ''
-    crawled_file = ''
     queue = set()
     crawled = set()
 
-    def __init__(self, project_name, base_url, domain_name):
-        Spider.project_name = project_name
-        Spider.base_url = base_url
-        Spider.domain_name = domain_name
-        Spider.queue_file = Spider.project_name + '/queue.txt'
-        Spider.crawled_file = Spider.project_name + '/crawled.txt'
+    def __init__(self):
         self.boot()
-        self.crawl_page('First spider', Spider.base_url)
+        self.crawl_page('First spider', HOMEPAGE)
 
     # Creates directory and files for project on first run and starts the spider
     @staticmethod
     def boot():
-        create_project_dir(Spider.project_name)
-        create_data_files(Spider.project_name, Spider.base_url)
-        Spider.queue = file_to_set(Spider.queue_file)
-        Spider.crawled = file_to_set(Spider.crawled_file)
+        create_data_files()
+        Spider.queue = file_to_set(QUEUE_FILE)
+        Spider.crawled = file_to_set(CRAWLED_FILE)
 
     # Updates user display, fills queue and updates files
     @staticmethod
@@ -48,10 +37,10 @@ class Spider:
         html_string = ''
         try:
             response = urlopen(page_url)
-            if 'text/html' in response.getheader('Content-Type'):
+            if response.getcode() == 200 and 'text/html' in response.getheader('Content-Type'):
                 html_bytes = response.read()
                 html_string = html_bytes.decode("utf-8")
-            finder = LinkFinder(Spider.base_url, page_url)
+            finder = LinkFinder(HOMEPAGE, page_url)
             finder.feed(html_string)
         except Exception as e:
             print(str(e))
@@ -64,11 +53,11 @@ class Spider:
         for url in links:
             if (url in Spider.queue) or (url in Spider.crawled):
                 continue
-            if Spider.domain_name != get_domain_name(url):
+            if DOMAIN_NAME != get_domain_name(url):
                 continue
             Spider.queue.add(url)
 
     @staticmethod
     def update_files():
-        set_to_file(Spider.queue, Spider.queue_file)
-        set_to_file(Spider.crawled, Spider.crawled_file)
+        set_to_file(Spider.queue, QUEUE_FILE)
+        set_to_file(Spider.crawled, CRAWLED_FILE)

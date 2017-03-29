@@ -1,2 +1,4 @@
 .idea
 __pycache__
+/database/crawled/*.txt
+/database/queue/*.txt
