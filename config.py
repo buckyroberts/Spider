@@ -1,4 +1,4 @@
-from domain import *
+from domain import get_domain_name
 
 HOMEPAGE = input('Enter HomePage url : ')
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
