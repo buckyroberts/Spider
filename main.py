@@ -46,10 +46,13 @@ def create_jobs():
 
 # Check if there are items in the queue, if so crawl them
 def crawl():
-    queued_links = file_to_set(QUEUE_FILE)
-    if len(queued_links) > 0:
-        print(str(len(queued_links)) + ' links in the queue')
-        create_jobs()
+	queued_links = file_to_set(QUEUE_FILE)
+	if len(queued_links) > 0:
+		print(str(len(queued_links)) + ' links in the queue')
+		create_jobs()
+	else:
+		Spider.update_files()
+		_exit(0)
 
 try:
 	create_workers()
