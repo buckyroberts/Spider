@@ -3,13 +3,19 @@ from queue import Queue
 from spider import Spider
 from domain import *
 from general import *
+from sys import argv,exit
+from os import _exit
 
-PROJECT_NAME = 'viper-seo'
-HOMEPAGE = 'http://viper-seo.com/'
+if len(argv) < 4:
+        print ('usage: python3 ' + argv[0] + ' <project name> <base url> <no of threads>')
+        exit(1)
+
+PROJECT_NAME = argv[1]
+HOMEPAGE = argv[2]
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
-QUEUE_FILE = PROJECT_NAME + '/queue.txt'
-CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
-NUMBER_OF_THREADS = 8
+QUEUE_FILE = PROJECT_NAME + '/queue.lst'
+CRAWLED_FILE = PROJECT_NAME + '/crawled.lst'
+NUMBER_OF_THREADS = int(argv[3])
 queue = Queue()
 Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 
@@ -45,6 +51,10 @@ def crawl():
         print(str(len(queued_links)) + ' links in the queue')
         create_jobs()
 
-
-create_workers()
-crawl()
+try:
+	create_workers()
+	crawl()
+except:
+	print ('[!] Quiting...')
+	Spider.update_files()
+	_exit(0)

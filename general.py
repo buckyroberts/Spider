@@ -10,12 +10,15 @@ def create_project_dir(directory):
 
 # Create queue and crawled files (if not created)
 def create_data_files(project_name, base_url):
-    queue = os.path.join(project_name , 'queue.txt')
-    crawled = os.path.join(project_name,"crawled.txt")
-    if not os.path.isfile(queue):
-        write_file(queue, base_url)
-    if not os.path.isfile(crawled):
-        write_file(crawled, '')
+	queue = os.path.join(project_name , 'queue.lst')
+	crawled = os.path.join(project_name,"crawled.lst")
+	emails = os.path.join(project_name,'emails.lst')
+	if not os.path.isfile(queue):
+		write_file(queue, base_url)
+	if not os.path.isfile(crawled):
+		write_file(crawled, '')
+	if not os.path.isfile(emails):
+		write_file(emails, '')
 
 
 # Create a new file
@@ -46,6 +49,7 @@ def file_to_set(file_name):
 
 # Iterate through a set, each item will be a line in a file
 def set_to_file(links, file_name):
-    with open(file_name,"w") as f:
-        for l in sorted(links):
-            f.write(l+"\n")
+	with open(file_name,"w") as f:
+		lincp = links.copy()
+		for l in sorted(lincp):
+			f.write(l+"\n")
