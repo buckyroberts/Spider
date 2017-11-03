@@ -26,9 +26,13 @@ def create_workers():
 def work():
     while True:
         url = queue.get()
-        Spider.crawl_page(threading.current_thread().name, url)
-        queue.task_done()
-
+        try:
+            Spider.crawl_page(threading.current_thread().name, url)
+            queue.task_done()
+        except Exception as e:
+            print('Error in', threading.current_thread().name, 'crawling', url,
+                 '\n\t', e)
+            
 
 # Each queued link is a new job
 def create_jobs():
