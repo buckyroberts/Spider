@@ -1,5 +1,5 @@
 ![](http://i.imgur.com/wYi2CkD.png)
-
+!(log is very nice but will look good in smaller size)
 
 # Overview
 
