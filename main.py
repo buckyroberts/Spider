@@ -1,16 +1,27 @@
 import threading
+import gc
+import time
+import mysql.connector
+import mysql.connector.errors
 from queue import Queue
 from spider import Spider
 from domain import *
 from general import *
 
-PROJECT_NAME = 'viper-seo'
-HOMEPAGE = 'http://viper-seo.com/'
+PROJECT_NAME = 'crawler'
+HOMEPAGE = 'https://www.whitepages.com.au/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
-NUMBER_OF_THREADS = 8
+NUMBER_OF_THREADS = 6
 queue = Queue()
+mydb = mysql.connector.connect(
+  host="DBHOST",
+  user="DBUSERNAME",
+  passwd="DBPASSWORD",
+  database="DBDATABASE"
+)
+mycursor = mydb.cursor()
 Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 
 
@@ -26,15 +37,27 @@ def create_workers():
 def work():
     while True:
         url = queue.get()
-        Spider.crawl_page(threading.current_thread().name, url)
-        queue.task_done()
+        crawls = Spider.crawl_page(threading.current_thread().name, url)
+        # Change the table and column to reflect your database
+        sql = "INSERT INTO links (urlink) VALUES (%s)"
+        val = (crawls,)
+        try:
+            mycursor.execute(sql, val)
+            mydb.commit()
+            queue.task_done()
+            gc.collect()
+        except (mydb.Error, mydb.Warning) as e:
+            print(e)
+            return None
 
 
 # Each queued link is a new job
 def create_jobs():
     for link in file_to_set(QUEUE_FILE):
         queue.put(link)
+        time.sleep(.500)
     queue.join()
+    time.sleep(.500)
     crawl()
 
 
@@ -48,3 +71,7 @@ def crawl():
 
 create_workers()
 crawl()
+gc.collect()
+time.sleep(.500)
+
+
