@@ -1,8 +1,12 @@
+import requests
+from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from link_finder import LinkFinder
 from domain import *
 from general import *
 
+
+HEADERS= {"User-Agent":"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0"}
 
 class Spider:
 
@@ -37,24 +41,26 @@ class Spider:
         if page_url not in Spider.crawled:
             print(thread_name + ' now crawling ' + page_url)
             print('Queue ' + str(len(Spider.queue)) + ' | Crawled  ' + str(len(Spider.crawled)))
-            Spider.add_links_to_queue(Spider.gather_links(page_url))
+            Spider.add_links_to_queue(Spider.gather_link(page_url))
             Spider.queue.remove(page_url)
             Spider.crawled.add(page_url)
             Spider.update_files()
 
     # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
-    def gather_links(page_url):
-        html_string = ''
+    def gather_link(page_url):
+        #get the html
+        soup2 = ""    
         try:
-            response = urlopen(page_url)
-            if 'text/html' in response.getheader('Content-Type'):
-                html_bytes = response.read()
-                html_string = html_bytes.decode("utf-8")
+            page = requests.get(page_url, headers=HEADERS)
+            soup = BeautifulSoup(page.content, "lxml")
+            soup2 = BeautifulSoup(soup.prettify(), "lxml")
+            #feed the html to the finder    
             finder = LinkFinder(Spider.base_url, page_url)
-            finder.feed(html_string)
+            finder.feed(str(soup2))
+            
         except Exception as e:
-            print(str(e))
+            print(e)
             return set()
         return finder.page_links()
 
