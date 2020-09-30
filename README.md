@@ -3,7 +3,7 @@
 
 # Overview
 
-This is an open source, multi-threaded website crawler written in Python. There is still a lot of work to do, so feel free to help out with development.
+This is an open source, multi-threaded website crawler written in Python. There is still a lot of work to do, so feel free to help out with development.This is an amazing project but we have to deal with some sorts of issues. So , lets work hard for this one and make it the best !
 
 ***
 
