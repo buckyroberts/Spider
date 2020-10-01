@@ -4,6 +4,7 @@ from urllib import parse
 
 class LinkFinder(HTMLParser):
 
+    # it initializes or constructs before the actual code in this runs
     def __init__(self, base_url, page_url):
         super().__init__()
         self.base_url = base_url
@@ -18,8 +19,10 @@ class LinkFinder(HTMLParser):
                     url = parse.urljoin(self.base_url, value)
                     self.links.add(url)
 
+    
     def page_links(self):
         return self.links
-
+    
+    #when error occurs it displays where error occured with a message 
     def error(self, message):
         pass
