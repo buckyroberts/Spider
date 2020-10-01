@@ -1,18 +1,19 @@
-from urllib.parse import urlparse
+from tld import get_tld     #tld(top level domain)pakage used
 
 
-# Get domain name (example.com)
-def get_domain_name(url):
+def get_domain_name(url):          
     try:
-        results = get_sub_domain_name(url).split('.')
-        return results[-2] + '.' + results[-1]
-    except:
-        return ''
+        info = get_tld(url, as_object=True)
+        return info.fld                         #returning domain.com
+    except ValueError:
+        message = "Oops! Something went wrong."
+        return message                                #returning message if input is wrong
+                              
 
-
-# Get sub domain name (name.example.com)
-def get_sub_domain_name(url):
+def get_subdomain_name(url):
     try:
-        return urlparse(url).netloc
-    except:
-        return ''
+        info = get_tld(url, as_object=True)
+        return info.parsed_url[1]                  #returning subdomain.domain.suffix
+    except ValueError:
+        message = "Oops! Something went wrong."
+        return message                                  #returning message if input is wrong
