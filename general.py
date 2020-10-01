@@ -1,7 +1,7 @@
 import os
 
 
-# Each website is a separate project (folder)
+# Each website is a segregate project (folder)
 def create_project_dir(directory):
     if not os.path.exists(directory):
         print('Creating directory ' + directory)
