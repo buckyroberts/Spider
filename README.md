@@ -12,8 +12,8 @@ Note: This is part of an open source search engine. The purpose of this tool is 
 ### Links
 
 - [Support thenewboston](https://www.patreon.com/thenewboston)
-- [thenewboston.com](https://thenewboston.com/)
+- [The New Boston](https://thenewboston.com/)
 - [Facebook](https://www.facebook.com/TheNewBoston-464114846956315/)
 - [Twitter](https://twitter.com/bucky_roberts)
 - [Google+](https://plus.google.com/+BuckyRoberts)
-- [reddit](https://www.reddit.com/r/thenewboston/)
+- [Reddit](https://www.reddit.com/r/thenewboston/)
