@@ -3,7 +3,14 @@
 
 # Overview
 
-This is an open source, multi-threaded website crawler written in Python. There is still a lot of work to do, so feel free to help out with development.
+This is an open source, multi-threaded website crawler written in Python.
+A web scraper (also known as web crawler) is a tool or a piece of code that performs the process to extract data from web pages on the Internet.
+Various web scrapers have played an important role in the boom of big data and make it easy for people to scrape the data they need.
+ 
+
+Among various web scrapers, open-source web scrapers allow users to code based on their source code
+or framework, and fuel a massive part to help scrape in a fast, simple but extensive way.
+There is still a lot of work to do, so feel free to help out with development.
 
 ***
 
