@@ -1,3 +1,4 @@
+#import the html phaser and the  url library using urllib 
 from html.parser import HTMLParser
 from urllib import parse
 
