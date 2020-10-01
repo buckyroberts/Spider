@@ -1,7 +1,7 @@
 import os
 
 
-# Each website is a separate project (folder)
+# Each website is has a separate project (folder)
 def create_project_dir(directory):
     if not os.path.exists(directory):
         print('Creating directory ' + directory)
@@ -24,7 +24,7 @@ def write_file(path, data):
         f.write(data)
 
 
-# Add data onto an existing file
+# Add data into an existing file
 def append_to_file(path, data):
     with open(path, 'a') as file:
         file.write(data + '\n')
