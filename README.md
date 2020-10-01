@@ -17,3 +17,4 @@ Note: This is part of an open source search engine. The purpose of this tool is 
 - [Twitter](https://twitter.com/bucky_roberts)
 - [Google+](https://plus.google.com/+BuckyRoberts)
 - [reddit](https://www.reddit.com/r/thenewboston/)
+- [instagram](https://instagram.com/)
