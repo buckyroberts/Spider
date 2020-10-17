@@ -3,7 +3,7 @@ from link_finder import LinkFinder
 from domain import *
 from general import *
 
-
+//class project
 class Spider:
 
     project_name = ''
