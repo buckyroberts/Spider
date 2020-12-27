@@ -16,7 +16,7 @@ class Spider:
 
     def __init__(self, project_name, base_url, domain_name):
         Spider.project_name = project_name
-        Spider.base_url = base_url
+        Spider.base_url = base_url if base_url[-1] != '/' else base_url[:-1] # erase last /
         Spider.domain_name = domain_name
         Spider.queue_file = Spider.project_name + '/queue.txt'
         Spider.crawled_file = Spider.project_name + '/crawled.txt'
@@ -45,18 +45,21 @@ class Spider:
     # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
     def gather_links(page_url):
+        import re
         html_string = ''
         try:
             response = urlopen(page_url)
             if 'text/html' in response.getheader('Content-Type'):
                 html_bytes = response.read()
                 html_string = html_bytes.decode("utf-8")
-            finder = LinkFinder(Spider.base_url, page_url)
-            finder.feed(html_string)
+                
+            pattern = "(\"|')(\/[\w\d?\/&=#.!:_-]{1,})(\"|')"
+            matches = re.findall(pattern, html_string)
+            result_urls = [ Spider.base_url + match[1] for match in matches]
+            return result_urls
         except Exception as e:
             print(str(e))
             return set()
-        return finder.page_links()
 
     # Saves queue data to project files
     @staticmethod
