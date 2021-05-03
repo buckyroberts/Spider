@@ -1,3 +1,6 @@
+import os
+import sys
+import webbrowser
 from urllib.parse import urlparse
 
 
