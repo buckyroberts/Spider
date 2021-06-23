@@ -4,11 +4,14 @@ from spider import Spider
 from domain import *
 from general import *
 
+file_path = "your_file_path"
+extend = "\\"
+
 PROJECT_NAME = 'viper-seo'
 HOMEPAGE = 'http://viper-seo.com/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
-QUEUE_FILE = PROJECT_NAME + '/queue.txt'
-CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
+QUEUE_FILE = file_ path + extend + PROJECT_NAME + extend + 'queue.txt'
+CRAWLED_FILE = file_path = extend + PROJECT_NAME + extend +'crawled.txt'
 NUMBER_OF_THREADS = 8
 queue = Queue()
 Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
