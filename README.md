@@ -7,9 +7,9 @@ This is an open source, multi-threaded website crawler written in Python. There 
 
 ***
 
-Note: This is part of an open source search engine. The purpose of this tool is to gather links **only**. The analytics, data harvesting, and search algorithms are being created as separate programs. 
+Note: This is a part of an open source search engine. The purpose of this tool is to gather links **only**. The analytics, data harvesting, and search algorithms are being created as separate programs. 
 
-### Links
+### Links below👇👇👇
 
 - [Support thenewboston](https://www.patreon.com/thenewboston)
 - [thenewboston.com](https://thenewboston.com/)
