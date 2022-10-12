@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib import parse
 
-class Finder() :
+class LinkFinder() :
     def __init__(self , response , base_url) :
         self.soup  = BeautifulSoup(response.text , 'html.parser')
         self.links = set()
