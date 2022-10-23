@@ -57,3 +57,5 @@ def timer(func) :
         func(*args , **kwargs)
         total = time.time() - start
         print("Time:" ,total)
+   
+   return wrapper
