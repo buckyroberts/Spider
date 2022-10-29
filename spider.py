@@ -1,7 +1,8 @@
-from urllib.request import urlopen
+
 from link_finder import LinkFinder
 from domain import *
 from general import *
+import requests 
 
 
 class Spider:
@@ -45,14 +46,10 @@ class Spider:
     # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
     def gather_links(page_url):
-        html_string = ''
         try:
-            response = urlopen(page_url)
-            if 'text/html' in response.getheader('Content-Type'):
-                html_bytes = response.read()
-                html_string = html_bytes.decode("utf-8")
-            finder = LinkFinder(Spider.base_url, page_url)
-            finder.feed(html_string)
+            response = requests.get(page_url)
+            finder = LinkFinder(response , Spider.base_url)
+            finder.find_links()
         except Exception as e:
             print(str(e))
             return set()
