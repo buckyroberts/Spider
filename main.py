@@ -1,4 +1,5 @@
 import threading
+import multiprocessing
 from queue import Queue
 from spider import Spider
 from domain import *
@@ -9,7 +10,7 @@ HOMEPAGE = 'http://viper-seo.com/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
-NUMBER_OF_THREADS = 8
+NUMBER_OF_THREADS = multiprocessing.cpu_count()
 queue = Queue()
 Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 
