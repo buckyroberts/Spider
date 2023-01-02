@@ -6,6 +6,9 @@ def create_project_dir(directory):
     if not os.path.exists(directory):
         print('Creating directory ' + directory)
         os.makedirs(directory)
+    else:
+        print('Directory ' + directory + ' already exists')
+        exit(0)
 
 
 # Create queue and crawled files (if not created)
@@ -46,6 +49,6 @@ def file_to_set(file_name):
 
 # Iterate through a set, each item will be a line in a file
 def set_to_file(links, file_name):
-    with open(file_name,"w") as f:
+    with open(file_name, "w") as f:
         for l in sorted(links):
             f.write(l+"\n")
